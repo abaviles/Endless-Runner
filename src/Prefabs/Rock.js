@@ -10,7 +10,7 @@ class Rock extends Phaser.GameObjects.Sprite {
         this.x -= this.moveSpeed
 
         if (this.x <= 0) {
-            this.x = (Math.random() * 3000) + game.config.width
+            this.x = (Math.random() * 2000) + game.config.width
             
         }
     }

@@ -30,7 +30,7 @@ class Runner extends Phaser.GameObjects.Sprite {
         } else if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.x <= game.config.width - 500) {
             this.x += 400
         } else if (this.x <= game.config.width && this.x >= 0) {
-            this.x -= 2
+            this.x -= 3
         } 
 
         
