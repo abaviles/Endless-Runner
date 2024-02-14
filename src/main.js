@@ -2,7 +2,7 @@ let config = {
     type: Phaser.AUTO,
     width: 1280,
     height: 960,
-    scene: [Menu, Play]
+    scene: [Menu, Controls, Play]
 }
 
 let keyUP, keyDOWN, keyLEFT, keyRIGHT, keyENTER, keySPACE, keyRESTART

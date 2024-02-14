@@ -3,7 +3,10 @@ class Rock extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame)
 
         scene.add.existing(this)
-        this.moveSpeed = 20
+       
+
+        this.zero = 0
+        this.score =  Math.floor((this.zero += 1)/60)
     }
 
     create(){
@@ -11,7 +14,13 @@ class Rock extends Phaser.GameObjects.Sprite {
     }
 
     update(){
-        this.x -= this.moveSpeed
+        this.x -= 18
+        
+        this.score =  Math.floor((this.zero += 1)/60)
+        if (this.score >= 30) {
+            this.x -= 3
+        } 
+       
 
         if (this.x <= 0) {
             this.x = (Math.random() * 2000) + game.config.width

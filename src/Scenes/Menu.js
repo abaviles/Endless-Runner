@@ -13,6 +13,8 @@ class Menu extends Phaser.Scene {
 
         this.load.image('floor', './assets/floor_tile.png')
         this.load.image('rock','./assets/crystal.png')
+        this.load.image('menuBG', './assets/menuScreen.png')
+        this.load.image('controlsBG', './assets/controls.png')
 
 
         
@@ -29,6 +31,7 @@ class Menu extends Phaser.Scene {
         })
 
         //MENU CONFIG
+        this.add.tileSprite(0, 0, 1280, 960, 'menuBG').setOrigin(0,0)
 
         
 
@@ -38,9 +41,10 @@ class Menu extends Phaser.Scene {
 
     update(){
        if (Phaser.Input.Keyboard.JustDown(keyENTER)){
-            console.log('exiting Menu')
-            this.scene.start('playScene')
-        }       
+            this.cameras.main.fadeOut(1000, 0, 0, 0)
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.scene.start('controlsScene')})
+            }
     
     }
 }

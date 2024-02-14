@@ -112,6 +112,7 @@ class Play extends Phaser.Scene {
             this.gg = this.add.text(game.config.width/2, game.config.height/2 -300, "GAME OVER!", gameOverconfig).setOrigin(0.5,0.5)
             this.gameOverText = this.add.text(game.config.width/2, game.config.height/2, "Press [R] to restart, or [ENTER] to return to the menu!", gameOverconfig).setOrigin(0.5,0.5)
             }
+
     //GAME OVER CHECK
        if (this.gameOn == true) {
         this.p1.update()
@@ -119,15 +120,24 @@ class Play extends Phaser.Scene {
         this.rock02.update()
         this.rock03.update()
         this.rock04.update()
-        this.floorTile.tilePositionX += 20
+        this.floorTile.tilePositionX += 18
         
         this.score =  Math.floor((this.zero += 1)/60)
-        this.timer.text = ("Score: " + this.score) 
+        this.timer.text = ("Score: " + this.score)
+        
+        //floor speed
+        if (this.score >= 30) {
+            this.floorTile.tilePositionX += 3
+        
+        //making the floor go left just to mess with players >:D
+        if (this.score >= 45) {
+            this.floorTile.tilePositionX -= 50
+        }
+      
        } 
+    }
        
 
-
-       
     //COLLISION CHECK
        if (this.checkCollision (this.p1, this.rock01)) {
             this.gameOn = false }
