@@ -6,6 +6,10 @@ class Rock extends Phaser.GameObjects.Sprite {
         this.moveSpeed = 20
     }
 
+    create(){
+        this.add.sprite(this.x, this.y, 'rock').setInteractive(this.input.makePixelPerfect());
+    }
+
     update(){
         this.x -= this.moveSpeed
 

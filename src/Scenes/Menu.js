@@ -13,7 +13,6 @@ class Menu extends Phaser.Scene {
 
         this.load.image('floor', './assets/floor_tile.png')
         this.load.image('rock','./assets/crystal.png')
-        
 
 
         
@@ -28,6 +27,8 @@ class Menu extends Phaser.Scene {
             frameRate: 12,
             repeat: -1
         })
+
+        //MENU CONFIG
 
         
 

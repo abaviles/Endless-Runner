@@ -5,6 +5,7 @@ let config = {
     scene: [Menu, Play]
 }
 
-let keyUP, keyDOWN, keyLEFT, keyRIGHT, keyENTER, keySPACE
+let keyUP, keyDOWN, keyLEFT, keyRIGHT, keyENTER, keySPACE, keyRESTART
 let game = new Phaser.Game(config)
 let borderSize = game.config.height / 5
+let highScore = 0
