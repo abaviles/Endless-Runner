@@ -194,7 +194,7 @@ class Play extends Phaser.Scene {
    
     }
 
-    //MISC FUNCTIONS (COLLISION AND TIMER)
+    //MISC FUNCTIONS (COLLISION, TIMER & TELEPORT)
     checkCollision(runner, rock) {
         if (runner.x  < rock.x + (rock.width * 0.1) - 150 &&
             runner.x + (rock.width * 0.1) - 150 > rock.x &&
