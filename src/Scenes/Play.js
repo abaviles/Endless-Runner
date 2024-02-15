@@ -9,19 +9,52 @@ class Play extends Phaser.Scene {
             startFrame: 0,
             endFrame: 3
         })
+
+        this.load.spritesheet('TP', './assets/lamao_teleport.png', {
+            frameWidth: 150,
+            frameHeight: 150,
+            startFrame: 0,
+            endFrame: 3
+        })
+
+    
+        this.load.audio('teleportNoise', './assets/teleport.wav')
     }
 
     create(){ 
-       
+    
+    //TRANSITION
+        this.cameras.main.fadeIn(1000, 0, 0, 0)
+
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.time.delayedCall(1000, () => {
+                this.scene.start('controlsScene')
+            })
+     })
+
+     //MUSIC / SOUND
+        this.playMusic = this.sound.add('playMusic')
+        this.playMusic.loop = true;
+        this.playMusic.play()
+
+        this.wind = this.sound.add('wind')
+        this.wind.loop = true;
+        this.wind.play()
+
+        this.load.audio('teleportNoise', './assets/teleport.wav')
 
     //RUNNER AND ROCKS
         this.floorTile = this.add.tileSprite(0, 0, 1280, 960, 'floor').setOrigin(0,0) 
         
+        
+        
+
+        this.rock01 = (new Rock(this, game.config.width *1.5, borderSize, 'rock')).setScale(0.12, 0.12)
+        this.rock02 = (new Rock(this, game.config.width *1.5, borderSize * 2, 'rock')).setScale(0.12, 0.12)
+
         this.p1 = new Runner(this, game.config.width/5, borderSize, 'running')
         this.p1.anims.play('running')
 
-        this.rock01 = (new Rock(this, game.config.width, borderSize, 'rock')).setScale(0.12, 0.12)
-        this.rock02 = (new Rock(this, game.config.width *1.5, borderSize * 2, 'rock')).setScale(0.12, 0.12)
         this.rock03 = (new Rock(this, game.config.width * 2 , borderSize * 3, 'rock')).setScale(0.12, 0.12)
         this.rock04 = (new Rock(this, game.config.width * 2.5, borderSize * 4, 'rock')).setScale(0.12, 0.12)
         
@@ -95,16 +128,18 @@ class Play extends Phaser.Scene {
 
         }
        
-       
-
         if(!this.gameOn && Phaser.Input.Keyboard.JustDown(keyRESTART)) {
             this.scene.restart()
+            this.wind.stop()
+            this.playMusic.stop()
             this.checkHighScore()
             
         }
 
         if(!this.gameOn && Phaser.Input.Keyboard.JustDown(keyENTER)) {
             this.scene.start('menuScene')
+            this.wind.stop()
+            this.playMusic.stop()
             this.checkHighScore()
             
         }
@@ -120,14 +155,22 @@ class Play extends Phaser.Scene {
         this.rock02.update()
         this.rock03.update()
         this.rock04.update()
-        this.floorTile.tilePositionX += 18
+        this.floorTile.tilePositionX += 20
         
         this.score =  Math.floor((this.zero += 1)/60)
         this.timer.text = ("Score: " + this.score)
         
+         //TELEPORT FUNCTION
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.p1.x <= game.config.width - borderSize) {
+        this.sound.play('teleportNoise')    
+        this.runTeleport(this.p1) 
+       }    
         //floor speed
+        if (this.score >= 15) {
+            this.floorTile.tilePositionX += 3}
+
         if (this.score >= 30) {
-            this.floorTile.tilePositionX += 3
+            this.floorTile.tilePositionX += 2.5
         
         //making the floor go left just to mess with players >:D
         if (this.score >= 45) {
@@ -146,7 +189,9 @@ class Play extends Phaser.Scene {
        if (this.checkCollision (this.p1, this.rock03)) {
             this.gameOn = false }
        if (this.checkCollision (this.p1, this.rock04)) {
-            this.gameOn = false }    
+            this.gameOn = false }
+    
+   
     }
 
     //MISC FUNCTIONS (COLLISION AND TIMER)
@@ -159,8 +204,6 @@ class Play extends Phaser.Scene {
         }   else {
             return false
         }
-
-        
     }
 
     checkHighScore() {
@@ -169,7 +212,19 @@ class Play extends Phaser.Scene {
         }
     }
 
+    runTeleport(runner) {
+        runner.alpha = 0
+        let tp = this.add.sprite(runner.x, runner.y, 'TP')
+        tp.anims.play('teleport', {volume: 10})
     
+        tp.on('animationcomplete', () => {
+           //runner.reset()
+           runner.alpha = 1
+           runner.x += 500
+           tp.destroy() 
+        })
+
+    }
 
     
     

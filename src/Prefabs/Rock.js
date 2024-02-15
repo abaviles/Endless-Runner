@@ -14,17 +14,23 @@ class Rock extends Phaser.GameObjects.Sprite {
     }
 
     update(){
-        this.x -= 18
-        
+        this.x -= 20
         this.score =  Math.floor((this.zero += 1)/60)
-        if (this.score >= 30) {
+        
+        if (this.score >= 15) {
             this.x -= 3
-        } 
+        } else if (this.score >= 30) {
+            this.x -= 4
+        } else if (this.score >= 45) {
+            this.x -= 5 }
        
 
         if (this.x <= 0) {
             this.x = (Math.random() * 2000) + game.config.width
+            } else if (this.x <= 0 && this.score >= 30) {
+                this.x = (Math.random() * 1000) + game.config.width 
+            } else if (this.x <= 0 && this.score >= 40) {
+                this.x = (Math.random() * 500) + game.config.width }
             
-        }
     }
 }
